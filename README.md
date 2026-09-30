@@ -1,7 +1,6 @@
 # MCP Governance Auditor
 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/downloads/)
-[![CI](https://github.com/dnanatihor/mcp-governance-auditor/actions/workflows/ci.yml/badge.svg)](https://github.com/dnanatihor/mcp-governance-auditor/actions/workflows/ci.yml)
 [![Ruff](https://img.shields.io/badge/lint-ruff-D7FF64?logo=ruff&logoColor=black)](https://docs.astral.sh/ruff/)
 [![mypy](https://img.shields.io/badge/types-mypy%20strict-blue)](https://mypy-lang.org/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
