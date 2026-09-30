@@ -1,0 +1,63 @@
+run:
+  name: oe-mcp-staging
+  fail_on: high                  # critical | high | medium | low | info
+  fail_on_llm_assisted: false    # pending llm_assisted findings do not fail CI
+  max_concurrency: 4
+  tool_timeout_s: 30
+  clock_override: null           # ISO-8601 string; tests only
+
+target:
+  transport: streamable_http     # stdio | streamable_http | sse
+  url: http://localhost:8000/mcp
+  headers:
+    Authorization: "Bearer ${OE_MCP_TOKEN}"
+  # stdio variant:
+  # transport: stdio
+  # command: python
+  # args: ["-m", "oe_mcp.server"]
+  # env: {OE_API_BASE: "${OE_API_BASE}"}
+
+probing:
+  mode: safe                     # safe | allowlist | off | open
+  allowlist: []                  # tools allowed without readOnlyHint; never overrides destructiveHint/denylist
+  denylist: ["update_*", "create_*", "set_*", "remove_*"]
+  max_probes_per_tool: 2
+  fixtures_file: ./configs/probe_fixtures.example.yaml
+  llm_generated_inputs: true
+  seed_values:                   # real identifiers the planner may use; it must not invent IDs
+    asset_id: ["tbl_orders", "col_email"]
+    schema_name: ["sales"]
+
+llm:
+  enabled: true
+  classifier_model: "anthropic:claude-haiku-4-5-20251001"
+  planner_model: "anthropic:claude-sonnet-5"
+  temperature: 0
+  batch_size: 25
+  send_values: truncated         # none | truncated | full
+  max_value_chars: 200
+  min_confidence: 0.7
+  crosscheck_labelled_certified: false
+  cache_dir: .mcpaudit_cache
+
+redaction:
+  extra_patterns: []
+
+policy_file: ./configs/policy.default.yaml
+
+static_scan:
+  enabled: false
+  repo_path: ../oe_mcp
+  include: ["**/*.py", "**/*.js", "**/*.ts", "**/*.mjs", "**/*.go", "**/*.java"]
+  exclude: ["tests/**", ".venv/**", "**/site-packages/**"]
+  telemetry_flush_function_names: ["flush_telemetry"]
+  tool_decorator_patterns: ["*.tool", "*.call_tool", "*.route", "*.get", "*.post"]
+
+review:
+  enabled: false
+
+output:
+  dir: ./reports
+  formats: [json, md]
+  save_raw: true
+  include_classifications: true

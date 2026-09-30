@@ -1,0 +1,4 @@
+get_column_quality:
+  - {asset_id: col_email}
+get_table_quality_summary:
+  - {asset_id: tbl_orders}

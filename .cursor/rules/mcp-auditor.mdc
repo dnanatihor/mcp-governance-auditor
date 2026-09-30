@@ -1,0 +1,14 @@
+---
+description: Implementation rules for the MCP Governance Auditor
+globs: ["src/**/*.py", "tests/**/*.py"]
+alwaysApply: true
+---
+- SPEC.md is the source of truth. Name the SPEC section you implemented in commit messages.
+- Implement only the current phase from SPEC.md §16.
+- Rules in src/mcp_gov_audit/rules/ are pure: no I/O, no LLM calls, no clock, no randomness.
+- Only call_tool_safely may call session.call_tool, and only the probe_tool node may call call_tool_safely. Never bypass §9.2.
+- Mask responses in probe_tool before they enter graph state (§10.5).
+- Non-serialisable objects (MCP session, LLM clients, semaphore) belong in AuditContext, never in AuditState.
+- Every rule needs a positive and a negative unit test.
+- No network in tests; LLMs are stubbed via FieldClassifier / ProbePlanner.
+- If SPEC.md is ambiguous, stop and list the ambiguity; do not invent behaviour.

@@ -1,0 +1,103 @@
+## Summary
+
+Verdict: **{{ verdict }}** against fail_on `{{ fail_on }}`.
+
+| Severity | Count |
+|---|---|
+| critical | {{ severity.critical }} |
+| high | {{ severity.high }} |
+| medium | {{ severity.medium }} |
+| low | {{ severity.low }} |
+| info | {{ severity.info }} |
+
+| Metric | Value |
+|---|---|
+| probe_coverage | {{ metrics.probe_coverage }} |
+| explicit_label_coverage | {{ metrics.explicit_label_coverage }} |
+| inference_disclosure_rate | {{ metrics.inference_disclosure_rate }} |
+| governance_notice_rate | {{ metrics.governance_notice_rate }} |
+| unknown_rate | {{ metrics.unknown_rate }} |
+
+## Target and run
+
+| | |
+|---|---|
+| Server | {{ server_name }} {{ server_version }} |
+| Transport | {{ transport }} |
+| Endpoint | {{ endpoint }} |
+| Protocol | {{ protocol_version }} |
+| Classifier model | {{ classifier_model }} |
+| Planner model | {{ planner_model }} |
+| Prompt versions | classify_field {{ classify_prompt }}, generate_probe_input {{ planner_prompt }} |
+| Policy | {{ policy_version }} (`{{ policy_sha256 }}`) |
+| Run | {{ run_id }} |
+| Started | {{ started_at }} |
+| Finished | {{ finished_at }} |
+
+## Coverage
+
+| Tool | Decision | Probes ok | Probes failed | Risk score |
+|---|---|---|---|---|
+{% for row in coverage_rows -%}
+| {{ row.tool }} | {{ row.decision }} | {{ row.ok }} | {{ row.failed }} | {{ row.risk }} |
+{% endfor %}
+
+## Epistemic distribution
+
+| Tool | Certified | Observed | Inferred | Unknown |
+|---|---|---|---|---|
+{% for row in distribution_rows -%}
+| {{ row.tool }} | {{ row.certified }} | {{ row.observed }} | {{ row.inferred }} | {{ row.unknown }} |
+{% endfor %}
+
+## Findings
+
+{% if finding_groups %}
+{% for group in finding_groups %}
+### {{ group.severity }}
+
+{% for rule in group.rules %}
+#### {{ rule.rule_id }} — {{ rule.rule_name }}
+
+{% for item in rule["items"] %}
+- **{{ item.where }}** (basis {{ item.basis }}, review {{ item.review_status }})
+  - Evidence: {{ item.evidence }}
+  - Remediation: {{ item.remediation }}
+{% endfor %}
+{% endfor %}
+{% endfor %}
+{% else %}
+None.
+{% endif %}
+
+## Static findings
+
+{% if static_findings %}
+{% for item in static_findings %}
+- `{{ item.location }}` {{ item.symbol }} — {{ item.rule_id }}: {{ item.evidence }}
+{% endfor %}
+{% else %}
+None.
+{% endif %}
+
+## Appendix
+
+### Rule catalog
+
+| ID | Name | Scope | Default severity |
+|---|---|---|---|
+{% for rule in catalog -%}
+| {{ rule.id }} | {{ rule.name }} | {{ rule.scope }} | {{ rule.default_severity }} |
+{% endfor %}
+
+### Run manifest
+
+- run_id: {{ run_id }}
+- auditor_version: {{ auditor_version }}
+- policy_version: {{ policy_version }}
+- policy_sha256: {{ policy_sha256 }}
+- llm_enabled: {{ llm_enabled }}
+- classifier: {{ classifier_model }}
+- planner: {{ planner_model }}
+- classify_field: {{ classify_prompt }}
+- generate_probe_input: {{ planner_prompt }}

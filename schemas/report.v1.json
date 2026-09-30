@@ -1,0 +1,749 @@
+{
+  "$defs": {
+    "AuditMetrics": {
+      "properties": {
+        "probe_coverage": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Probe Coverage"
+        },
+        "explicit_label_coverage": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Explicit Label Coverage"
+        },
+        "inference_disclosure_rate": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Inference Disclosure Rate"
+        },
+        "governance_notice_rate": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Governance Notice Rate"
+        },
+        "unknown_rate": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Unknown Rate"
+        }
+      },
+      "required": [
+        "probe_coverage",
+        "explicit_label_coverage",
+        "inference_disclosure_rate",
+        "governance_notice_rate",
+        "unknown_rate"
+      ],
+      "title": "AuditMetrics",
+      "type": "object"
+    },
+    "EpistemicDistribution": {
+      "properties": {
+        "certified": {
+          "default": 0,
+          "title": "Certified",
+          "type": "integer"
+        },
+        "observed": {
+          "default": 0,
+          "title": "Observed",
+          "type": "integer"
+        },
+        "inferred": {
+          "default": 0,
+          "title": "Inferred",
+          "type": "integer"
+        },
+        "unknown": {
+          "default": 0,
+          "title": "Unknown",
+          "type": "integer"
+        }
+      },
+      "title": "EpistemicDistribution",
+      "type": "object"
+    },
+    "FieldClassification": {
+      "properties": {
+        "probe_id": {
+          "title": "Probe Id",
+          "type": "string"
+        },
+        "tool_name": {
+          "title": "Tool Name",
+          "type": "string"
+        },
+        "normalized_path": {
+          "title": "Normalized Path",
+          "type": "string"
+        },
+        "concrete_path": {
+          "title": "Concrete Path",
+          "type": "string"
+        },
+        "parent_path": {
+          "title": "Parent Path",
+          "type": "string"
+        },
+        "layer": {
+          "$ref": "#/$defs/Layer"
+        },
+        "method": {
+          "enum": [
+            "field_label",
+            "envelope_label",
+            "policy_pattern",
+            "llm",
+            "none"
+          ],
+          "title": "Method",
+          "type": "string"
+        },
+        "confidence": {
+          "title": "Confidence",
+          "type": "number"
+        },
+        "evidence": {
+          "title": "Evidence",
+          "type": "string"
+        },
+        "mixed_layers": {
+          "default": false,
+          "title": "Mixed Layers",
+          "type": "boolean"
+        },
+        "crosscheck_disagreement": {
+          "default": false,
+          "title": "Crosscheck Disagreement",
+          "type": "boolean"
+        },
+        "prompt_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prompt Version"
+        },
+        "model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model"
+        }
+      },
+      "required": [
+        "probe_id",
+        "tool_name",
+        "normalized_path",
+        "concrete_path",
+        "parent_path",
+        "layer",
+        "method",
+        "confidence",
+        "evidence"
+      ],
+      "title": "FieldClassification",
+      "type": "object"
+    },
+    "Finding": {
+      "properties": {
+        "finding_id": {
+          "title": "Finding Id",
+          "type": "string"
+        },
+        "rule_id": {
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "rule_name": {
+          "title": "Rule Name",
+          "type": "string"
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity"
+        },
+        "scope": {
+          "enum": [
+            "manifest",
+            "response",
+            "coverage",
+            "static"
+          ],
+          "title": "Scope",
+          "type": "string"
+        },
+        "tool_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tool Name"
+        },
+        "normalized_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Normalized Path"
+        },
+        "file_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "File Path"
+        },
+        "symbol": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Symbol"
+        },
+        "evidence": {
+          "title": "Evidence",
+          "type": "string"
+        },
+        "remediation": {
+          "title": "Remediation",
+          "type": "string"
+        },
+        "basis": {
+          "enum": [
+            "deterministic",
+            "llm_assisted",
+            "heuristic"
+          ],
+          "title": "Basis",
+          "type": "string"
+        },
+        "needs_human_review": {
+          "title": "Needs Human Review",
+          "type": "boolean"
+        },
+        "review_status": {
+          "default": "not_required",
+          "enum": [
+            "not_required",
+            "pending",
+            "confirmed",
+            "dismissed",
+            "downgraded"
+          ],
+          "title": "Review Status",
+          "type": "string"
+        },
+        "review_note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Review Note"
+        },
+        "occurrences": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Occurrence"
+          },
+          "title": "Occurrences",
+          "type": "array"
+        },
+        "framework_refs": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Framework Refs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "finding_id",
+        "rule_id",
+        "rule_name",
+        "severity",
+        "scope",
+        "evidence",
+        "remediation",
+        "basis",
+        "needs_human_review"
+      ],
+      "title": "Finding",
+      "type": "object"
+    },
+    "Layer": {
+      "enum": [
+        "certified",
+        "observed",
+        "inferred",
+        "unknown"
+      ],
+      "title": "Layer",
+      "type": "string"
+    },
+    "ModelIds": {
+      "properties": {
+        "classifier": {
+          "title": "Classifier",
+          "type": "string"
+        },
+        "planner": {
+          "title": "Planner",
+          "type": "string"
+        }
+      },
+      "required": [
+        "classifier",
+        "planner"
+      ],
+      "title": "ModelIds",
+      "type": "object"
+    },
+    "Occurrence": {
+      "properties": {
+        "probe_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Probe Id"
+        },
+        "concrete_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Concrete Path"
+        },
+        "line": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Line"
+        },
+        "detail": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Detail"
+        }
+      },
+      "title": "Occurrence",
+      "type": "object"
+    },
+    "PromptVersions": {
+      "properties": {
+        "classify_field": {
+          "title": "Classify Field",
+          "type": "string"
+        },
+        "generate_probe_input": {
+          "title": "Generate Probe Input",
+          "type": "string"
+        }
+      },
+      "required": [
+        "classify_field",
+        "generate_probe_input"
+      ],
+      "title": "PromptVersions",
+      "type": "object"
+    },
+    "ReportCoverage": {
+      "properties": {
+        "tools_total": {
+          "title": "Tools Total",
+          "type": "integer"
+        },
+        "tools_probed": {
+          "title": "Tools Probed",
+          "type": "integer"
+        },
+        "tools_skipped": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Tools Skipped",
+          "type": "object"
+        },
+        "probes_total": {
+          "title": "Probes Total",
+          "type": "integer"
+        },
+        "probes_failed": {
+          "title": "Probes Failed",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "tools_total",
+        "tools_probed",
+        "tools_skipped",
+        "probes_total",
+        "probes_failed"
+      ],
+      "title": "ReportCoverage",
+      "type": "object"
+    },
+    "ReportRun": {
+      "properties": {
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "auditor_version": {
+          "title": "Auditor Version",
+          "type": "string"
+        },
+        "started_at": {
+          "title": "Started At",
+          "type": "string"
+        },
+        "finished_at": {
+          "title": "Finished At",
+          "type": "string"
+        },
+        "policy_version": {
+          "title": "Policy Version",
+          "type": "string"
+        },
+        "policy_sha256": {
+          "title": "Policy Sha256",
+          "type": "string"
+        },
+        "llm_enabled": {
+          "title": "Llm Enabled",
+          "type": "boolean"
+        },
+        "models": {
+          "$ref": "#/$defs/ModelIds"
+        },
+        "prompt_versions": {
+          "$ref": "#/$defs/PromptVersions"
+        },
+        "verdict": {
+          "title": "Verdict",
+          "type": "string"
+        },
+        "fail_on": {
+          "title": "Fail On",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "auditor_version",
+        "started_at",
+        "finished_at",
+        "policy_version",
+        "policy_sha256",
+        "llm_enabled",
+        "models",
+        "prompt_versions",
+        "verdict",
+        "fail_on"
+      ],
+      "title": "ReportRun",
+      "type": "object"
+    },
+    "ReportSummary": {
+      "properties": {
+        "by_severity": {
+          "$ref": "#/$defs/SeverityCounts"
+        },
+        "by_rule": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "By Rule",
+          "type": "object"
+        }
+      },
+      "required": [
+        "by_severity",
+        "by_rule"
+      ],
+      "title": "ReportSummary",
+      "type": "object"
+    },
+    "ReportTarget": {
+      "properties": {
+        "transport": {
+          "title": "Transport",
+          "type": "string"
+        },
+        "endpoint": {
+          "title": "Endpoint",
+          "type": "string"
+        },
+        "server_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Server Name"
+        },
+        "server_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Server Version"
+        },
+        "protocol_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Protocol Version"
+        }
+      },
+      "required": [
+        "transport",
+        "endpoint"
+      ],
+      "title": "ReportTarget",
+      "type": "object"
+    },
+    "ReportTool": {
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "risk_score": {
+          "title": "Risk Score",
+          "type": "number"
+        },
+        "inference_risk": {
+          "title": "Inference Risk",
+          "type": "boolean"
+        },
+        "probe_decision": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Probe Decision"
+        },
+        "epistemic_distribution": {
+          "$ref": "#/$defs/EpistemicDistribution"
+        }
+      },
+      "required": [
+        "name",
+        "risk_score",
+        "inference_risk",
+        "probe_decision",
+        "epistemic_distribution"
+      ],
+      "title": "ReportTool",
+      "type": "object"
+    },
+    "Severity": {
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low",
+        "info"
+      ],
+      "title": "Severity",
+      "type": "string"
+    },
+    "SeverityCounts": {
+      "properties": {
+        "critical": {
+          "default": 0,
+          "title": "Critical",
+          "type": "integer"
+        },
+        "high": {
+          "default": 0,
+          "title": "High",
+          "type": "integer"
+        },
+        "medium": {
+          "default": 0,
+          "title": "Medium",
+          "type": "integer"
+        },
+        "low": {
+          "default": 0,
+          "title": "Low",
+          "type": "integer"
+        },
+        "info": {
+          "default": 0,
+          "title": "Info",
+          "type": "integer"
+        }
+      },
+      "title": "SeverityCounts",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "schema_version": {
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "run": {
+      "$ref": "#/$defs/ReportRun"
+    },
+    "target": {
+      "$ref": "#/$defs/ReportTarget"
+    },
+    "coverage": {
+      "$ref": "#/$defs/ReportCoverage"
+    },
+    "metrics": {
+      "$ref": "#/$defs/AuditMetrics"
+    },
+    "summary": {
+      "$ref": "#/$defs/ReportSummary"
+    },
+    "tools": {
+      "items": {
+        "$ref": "#/$defs/ReportTool"
+      },
+      "title": "Tools",
+      "type": "array"
+    },
+    "findings": {
+      "items": {
+        "$ref": "#/$defs/Finding"
+      },
+      "title": "Findings",
+      "type": "array"
+    },
+    "classifications": {
+      "items": {
+        "$ref": "#/$defs/FieldClassification"
+      },
+      "title": "Classifications",
+      "type": "array"
+    }
+  },
+  "required": [
+    "run",
+    "target",
+    "coverage",
+    "metrics",
+    "summary",
+    "tools",
+    "findings",
+    "classifications"
+  ],
+  "title": "Report",
+  "type": "object"
+}

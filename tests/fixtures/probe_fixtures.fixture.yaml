@@ -1,0 +1,10 @@
+get_column_quality:
+  - {asset_id: col_email}
+get_table_quality_summary:
+  - {asset_id: tbl_orders}
+get_asset_description:
+  - {asset_id: col_email}
+get_owner_suggestions:
+  - {asset_id: tbl_orders}
+get_profile_snapshot:
+  - {asset_id: tbl_orders}

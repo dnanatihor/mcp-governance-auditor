@@ -1,0 +1,69 @@
+[project]
+name = "mcp-governance-auditor"
+dynamic = ["version"]
+description = "Audit an MCP server for epistemic-layer governance of catalog tool responses."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+authors = [{ name = "Rohit Anand" }]
+dependencies = [
+    "jinja2>=3.1",
+    "jsonschema>=4.23",
+    "langchain>=1",
+    "langchain-anthropic>=1",
+    "langchain-core>=1",
+    "langgraph>=1",
+    "langgraph-checkpoint-sqlite>=2",
+    "mcp>=1.9,<2",
+    "pydantic>=2",
+    "pyyaml>=6",
+    "rich>=13",
+    "structlog>=24",
+    "typer>=0.15",
+]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.13",
+    "pytest>=8",
+    "pytest-asyncio>=0.25",
+    "ruff>=0.9",
+    "types-PyYAML>=6",
+]
+
+[project.scripts]
+mcpaudit = "mcp_gov_audit.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "src/mcp_gov_audit/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mcp_gov_audit"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+mypy_path = "src"
+packages = ["mcp_gov_audit"]
+
+[[tool.mypy.overrides]]
+module = ["yaml", "yaml.*", "jsonschema", "jsonschema.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-q"

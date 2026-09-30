@@ -1,0 +1,92 @@
+[
+  {
+    "rule_id": "EPI-001",
+    "tool_name": "get_table_quality_summary",
+    "normalized_path": null
+  },
+  {
+    "rule_id": "EPI-002",
+    "tool_name": "get_table_quality_summary",
+    "normalized_path": "$.quality"
+  },
+  {
+    "rule_id": "EPI-003",
+    "tool_name": "get_table_quality_summary",
+    "normalized_path": "$.quality.recommended_action"
+  },
+  {
+    "rule_id": "EPI-003",
+    "tool_name": "get_table_quality_summary",
+    "normalized_path": "$.quality.score"
+  },
+  {
+    "rule_id": "EPI-009",
+    "tool_name": "get_table_quality_summary",
+    "normalized_path": null
+  },
+  {
+    "rule_id": "MAN-001",
+    "tool_name": "get_table_quality_summary",
+    "normalized_path": null
+  },
+  {
+    "rule_id": "EPI-004",
+    "tool_name": "get_asset_description",
+    "normalized_path": "$.certified_findings[*]"
+  },
+  {
+    "rule_id": "EPI-005",
+    "tool_name": "get_asset_description",
+    "normalized_path": "$.certified_findings[*]"
+  },
+  {
+    "rule_id": "EPI-008",
+    "tool_name": "get_owner_suggestions",
+    "normalized_path": null
+  },
+  {
+    "rule_id": "EPI-009",
+    "tool_name": "get_owner_suggestions",
+    "normalized_path": null
+  },
+  {
+    "rule_id": "MAN-002",
+    "tool_name": "get_owner_suggestions",
+    "normalized_path": null
+  },
+  {
+    "rule_id": "EPI-006",
+    "tool_name": "get_profile_snapshot",
+    "normalized_path": "$.profiling_observations[*]"
+  },
+  {
+    "rule_id": "EPI-007",
+    "tool_name": "get_profile_snapshot",
+    "normalized_path": "$.profiling_observations[*]"
+  },
+  {
+    "rule_id": "MAN-003",
+    "tool_name": "list_assets",
+    "normalized_path": null
+  },
+  {
+    "rule_id": "COV-001",
+    "tool_name": "list_assets",
+    "normalized_path": null
+  },
+  {
+    "rule_id": "COV-001",
+    "tool_name": "delete_asset",
+    "normalized_path": null
+  },
+  {
+    "rule_id": "COV-002",
+    "tool_name": "flaky_lookup",
+    "normalized_path": null
+  },
+  {
+    "rule_id": "COV-002",
+    "tool_name": "slow_lookup",
+    "normalized_path": null
+  }
+]
